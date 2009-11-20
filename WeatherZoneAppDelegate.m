@@ -14,15 +14,6 @@
 @synthesize window;
 @synthesize idCode;
 
-// designatedInitializer
-- (id)init {
-    
-    self = [super init];
-    if (self) {
-        [self setIdCode:@"KSEA"];
-    }
-    return self;
-}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// Insert code here to initialize your application
@@ -31,8 +22,7 @@
 - (NSString *)URLStringForWeatherUndergroundConditions {
     self.idCode = @"KBFI";
     return [NSString
-            stringWithFormat:@"http://api.wunderground.com/auto/wui/geo/WXCurrentObXML/index.xml?query=%@",
-            self.idCode];
+            stringWithFormat:@"%@%@", BSWUObservationString, self.idCode];
 }
 
 - (NSURL *)URLForWeatherUndergroundConditions {

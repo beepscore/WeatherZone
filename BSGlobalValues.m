@@ -7,5 +7,6 @@
 #import "BSGlobalValues.h"
 
 
-//NSString * const BSIdCodeKey = @"idCode";
-
+NSString * const BSWUForecastString = @"http://api.wunderground.com/auto/wui/geo/ForecastXML/index.xml?query=";
+NSString * const BSWUObservationString = 
+    @"http://api.wunderground.com/auto/wui/geo/WXCurrentObXML/index.xml?query=";

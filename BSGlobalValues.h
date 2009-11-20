@@ -11,8 +11,8 @@
 
 // #define MAX_COUNT (100)
 
-
-//extern NSString * const BSIdCodeKey;
+extern NSString * const BSWUForecastString;
+extern NSString * const BSWUObservationString;
 
 #pragma mark -
 // Ref http://iphoneincubator.com/blog/debugging/the-evolution-of-a-replacement-for-nslog
