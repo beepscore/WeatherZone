@@ -40,7 +40,7 @@
 }
 
 
-- (IBAction)fetchObservations:(id)sender {
+- (IBAction)fetchObservation:(id)sender {
     
     // Show the user that something is going on
     [progress startAnimation:nil];
@@ -76,7 +76,7 @@
     }
     
     [itemNodes release];
-    itemNodes = [[doc nodesForXPath:@"current_observations"
+    itemNodes = [[doc nodesForXPath:@"current_observation"
                               error:&error] retain];
     if(!itemNodes) {
         NSAlert *alert = [NSAlert alertWithError:error];
@@ -89,9 +89,39 @@
     [progress stopAnimation:nil];                           
 }
 
--(int)numberOfRowsInTableView:(NSTableView *)tv {
+- (NSString *)stringForPath:(NSString *)xp
+                     ofNode:(NSXMLNode *)n {
     
-    return 0;
+    NSError *error;
+    NSArray *nodes = [n nodesForXPath:xp error:&error];
+    if (!nodes) {
+        NSAlert *alert = [NSAlert alertWithError:error];
+        [alert runModal];
+        return nil;
+    }
+    if (0 == [nodes count]) {
+        return nil;
+    } else {
+        DLog(@"[[nodes objectAtIndex:0] stringValue] = %@", [[nodes objectAtIndex:0] stringValue]);
+        return [[nodes objectAtIndex:0] stringValue];
+    }
 }
+
+#pragma mark TableView data source methods
+- (int)numberOfRowsInTableView:(NSTableView *)tv {
+    DLog(@"[itemNodes count] = %d", [itemNodes count]);
+    return [itemNodes count];
+}
+
+- (id)tableView:(NSTableView *)tv 
+objectValueForTableColumn:(NSTableColumn *)tableColumn
+row:(int)row {
+    
+    NSXMLNode *node = [itemNodes objectAtIndex:row];
+    NSString *xPath = [tableColumn identifier];
+    return [self stringForPath:xPath ofNode:node];
+}
+
+
 
 @end
