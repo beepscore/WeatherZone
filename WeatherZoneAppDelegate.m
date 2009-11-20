@@ -15,6 +15,11 @@
 @synthesize idCode;
 
 
+- (void)awakeFromNib {
+    [tableView setDoubleAction:@selector(openItem:)];
+    [tableView setTarget:self];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// Insert code here to initialize your application
 }
@@ -112,6 +117,13 @@ row:(int)row {
     return [self stringForPath:xPath ofNode:node];
 }
 
-
+- (void)openItem:(id)sender {
+//    int row = [tableView clickedRow];
+//    if (-1 == row) {
+//        return;
+//    }
+//    NSXMLNode *clickedItem = [itemNodes objectAtIndex:row];
+    [[NSWorkspace sharedWorkspace] openURL:[self URLForWeatherUndergroundConditions]];
+}
 
 @end
