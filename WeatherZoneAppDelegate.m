@@ -12,10 +12,33 @@
 @implementation WeatherZoneAppDelegate
 
 @synthesize window;
+@synthesize idCode;
+
+// designatedInitializer
+- (id)init {
+    
+    self = [super init];
+    if (self) {
+        [self setIdCode:@"KSEA"];
+    }
+    return self;
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	// Insert code here to initialize your application 
+	// Insert code here to initialize your application
 }
+
+- (NSString *)URLStringForWeatherUndergroundConditions {
+    self.idCode = @"KBFI";
+    return [NSString
+            stringWithFormat:@"http://api.wunderground.com/auto/wui/geo/WXCurrentObXML/index.xml?query=%@",
+            self.idCode];
+}
+
+- (NSURL *)URLForWeatherUndergroundConditions {
+    return [NSURL URLWithString:self.URLStringForWeatherUndergroundConditions];
+}
+
 
 - (IBAction)fetchBooks:(id)sender {
     
@@ -23,32 +46,10 @@
     [progress startAnimation:nil];
     
     // Put together the request
-    // See http://www.amazon.com/gp/aws/landing.html
-    
-    // Get the string and percent-escape for insertion into URL
-    NSString *input = [searchField stringValue];
-    NSString *searchString = 
-     [input stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
-    DLog(@"searchString = %@", searchString);
-    
-    // Create the URL (Long string broken into several lines is OK)
-    NSString *urlString = [NSString stringWithFormat:
-                           @"http://ecs.amazonaws.com/onca/xml?"
-                           @"Service=AWSECommerceService&"
-                           @"AWSAccessKeyID=%@&"
-                           @"Operation=ItemSearch&"
-                           @"SearchIndex=Books&"
-                           @"Keywords=%@&"
-                           @"Version=2007-07-16",
-                           searchString];
-    
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[self URLForWeatherUndergroundConditions]
                                                 cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                             timeoutInterval:30];
-    // Fetch the XML response
-    
+    // Fetch the XML response    
     NSData *urlData;
     NSURLResponse *response;
     NSError *error;
@@ -75,7 +76,7 @@
     }
     
     [itemNodes release];
-    itemNodes = [[doc nodesForXPath:@"ItemSearchResponse/Items/Item"
+    itemNodes = [[doc nodesForXPath:@"current_observations"
                               error:&error] retain];
     if(!itemNodes) {
         NSAlert *alert = [NSAlert alertWithError:error];

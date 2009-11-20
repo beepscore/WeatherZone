@@ -17,10 +17,15 @@
     IBOutlet NSProgressIndicator *progress;
     IBOutlet NSTextField *searchField;
     IBOutlet NSTableView *tableView;
+    NSString *idCode;
 }
 
 @property (assign) IBOutlet NSWindow *window;
+@property (nonatomic, retain) NSString *idCode;
 
 - (IBAction)fetchBooks:(id)sender;
+- (NSString *)URLStringForWeatherUndergroundConditions;
+- (NSURL *)URLForWeatherUndergroundConditions;
+    
 
 @end
