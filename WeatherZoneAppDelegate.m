@@ -40,7 +40,7 @@
 }
 
 
-- (IBAction)fetchBooks:(id)sender {
+- (IBAction)fetchObservations:(id)sender {
     
     // Show the user that something is going on
     [progress startAnimation:nil];

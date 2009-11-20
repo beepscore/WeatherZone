@@ -23,7 +23,7 @@
 @property (assign) IBOutlet NSWindow *window;
 @property (nonatomic, retain) NSString *idCode;
 
-- (IBAction)fetchBooks:(id)sender;
+- (IBAction)fetchObservations:(id)sender;
 - (NSString *)URLStringForWeatherUndergroundConditions;
 - (NSURL *)URLForWeatherUndergroundConditions;
     
